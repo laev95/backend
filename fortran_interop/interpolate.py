@@ -1,18 +1,13 @@
-import  ctypes      as      ct
-from    os          import  path
-from    .Cmodels    import  CGeoValuesArray
+import  ctypes     as      ct
+from    os         import  path
+from    .CModel    import  CGeoValuesArray
 
 
-DIR_NAME        = path.dirname(__file__)
-LIB_GRAV_INTER  = ct.CDLL(DIR_NAME + '/lib/libGravityInterpolation.so')
+LIB_GRAV_INTER  = ct.CDLL(path.dirname(__file__) + '/lib/libGravityInterpolation.so')
 
 
-
-
-def interpolate_array(x_coords: list[float], y_coords: list[float], elli_h: list[float], norm_h: list[float],
-                      inter_type: str, coord_type: str):
-
-    len_arrays   = len(x_coords)
+def interpolate_array(x: list[float], y: list[float], e_h: list[float], n_h: list[float], inter: str, coord: str) -> list:
+    len_arrays   = len(x)
     input_types  = [
                     ct.POINTER(ct.c_double*len_arrays),
                     ct.POINTER(ct.c_double*len_arrays),
@@ -30,7 +25,7 @@ def interpolate_array(x_coords: list[float], y_coords: list[float], elli_h: list
     interpolate_gravity.argtypes    = input_types
     interpolate_gravity.restype     = ct.c_void_p
 
-    geo_arrays = CGeoValuesArray(x_coords, y_coords, elli_h, norm_h, len_arrays, inter_type, coord_type)
+    geo_arrays = CGeoValuesArray(x, y, e_h, n_h, len_arrays, inter, coord)
 
     interpolate_gravity(
                         ct.byref(geo_arrays.x_arr),
@@ -38,11 +33,14 @@ def interpolate_array(x_coords: list[float], y_coords: list[float], elli_h: list
                         ct.byref(geo_arrays.eh_arr),
                         ct.byref(geo_arrays.nh_arr),
                         geo_arrays.i_type,
-                        geo_arrays.system,
+                        geo_arrays.c_type,
                         ct.byref(geo_arrays.ih_arr),
                         ct.byref(geo_arrays.num_el),
                         ct.byref(geo_arrays.int_flags),
                         ct.byref(geo_arrays.err_flag)
                         )
+    
+    # if geo_arrays.err_flag.value != 0:
+    #     return [f"Error code: {geo_arrays.err_flag.value}"]
 
     return geo_arrays.convert_to_python()
