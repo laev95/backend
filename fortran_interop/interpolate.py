@@ -40,7 +40,4 @@ def interpolate_array(x: list[float], y: list[float], e_h: list[float], n_h: lis
                         ct.byref(geo_arrays.err_flag)
                         )
     
-    # if geo_arrays.err_flag.value != 0:
-    #     return [f"Error code: {geo_arrays.err_flag.value}"]
-
     return geo_arrays.convert_to_python()

@@ -19,8 +19,7 @@ class CGeoValuesArray:
         self.err_flag   = ct.c_int(0)
 
     def convert_to_python(self) -> list:
-        python_values:      list[list] = []
-        formatted_lists:    list[list] = []
+        python_values: list[list] = []
 
         number_elems = self.num_el.value
 
@@ -34,11 +33,4 @@ class CGeoValuesArray:
         python_values.append(list(self.int_flags))
         python_values.append(list(repeat(self.err_flag.value, number_elems)))
 
-        for i in range(self.num_el.value):
-            tmp_list = []
-            for lst in python_values:
-                tmp_list.append(lst[i])
-                
-            formatted_lists.append(tmp_list)
-
-        return formatted_lists
+        return python_values 
