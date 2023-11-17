@@ -23,7 +23,6 @@ def interpolate_array(x: list[float], y: list[float], e_h: list[float], n_h: lis
 
     interpolate_gravity             = LIB_GRAV_INTER.dogravityinterpolation_array
     interpolate_gravity.argtypes    = input_types
-    interpolate_gravity.restype     = ct.c_void_p
 
     geo_arrays = CGeoValuesArray(x, y, e_h, n_h, len_arrays, inter, coord)
 
