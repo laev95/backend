@@ -18,7 +18,7 @@ class CGeoValuesArray:
         self.int_flags  = (ct.c_int * n_values)(*list(repeat(0, n_values)))
         self.err_flag   = ct.c_int(0)
 
-    def convert_to_python(self) -> list:
+    def convert_to_python(self) -> list[list]:
         python_values: list[list] = []
 
         number_elems = self.num_el.value
