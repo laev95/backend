@@ -1,7 +1,7 @@
 import ctypes       as ct
 from itertools      import repeat
-from .spacebuffer   import space_buffer
-
+from .spacebuffer    import space_buffer
+from typing import List
 
 class CGeoValuesArray:
     def __init__(self, x_coords, y_coords, elli_hs, norm_hs, n_values, inter_type, coord_type):

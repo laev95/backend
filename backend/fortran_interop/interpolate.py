@@ -1,9 +1,11 @@
 import ctypes as ct
 from os import path
 from .CModel import CGeoValuesArray
+from typing import List
 
 
-LIB_GRAV_INTER = ct.CDLL(path.dirname(__file__) + "/lib/libGravityInterpolation.so")
+file_path = path.dirname(__file__)
+LIB_GRAV_INTER = ct.CDLL(file_path + "/lib/libGravityInterpolation.so")
 
 
 def interpolate_array(x: list[float], y: list[float], e_h: list[float], n_h: list[float], inter: str, coord: str) -> list:
